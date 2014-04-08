@@ -9,6 +9,8 @@ describe "Authentication" do
     
     it { should have_content('Sign in') }
     it { should have_title('Sign in') }
+    it { should_not have_link('Profile') }
+    it { should_not have_link('Settings') }
   end
 
   describe "signin" do
@@ -19,6 +21,8 @@ describe "Authentication" do
 
       it { should have_title('Sign in') }
       it { should have_error_message('Invalid') }
+      it { should_not have_link('Profile') }
+      it { should_not have_link('Settings') }
 
       describe "after visiting another page" do
         before { click_link "Home" }
@@ -40,6 +44,8 @@ describe "Authentication" do
       describe "followed by signout" do 
         before { click_link "Sign out" }
         it { should have_link('Sign in') }
+        it { should_not have_link('Profile',  href: user_path(user)) }
+        it { should_not have_link('Settings', href: edit_user_path(user)) }
       end
     end
   end
