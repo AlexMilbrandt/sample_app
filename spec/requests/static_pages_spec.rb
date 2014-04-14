@@ -64,6 +64,19 @@ describe "Static pages" do
         end
       end
     end
+
+    describe "micropost pagination" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        31.times { FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum") }
+        sign_in user
+        visit root_path
+      end
+
+      it "should start paginating after 30 posts" do
+        page.should have_selector('div.pagination')
+      end
+    end
   end
 
   describe "Help page" do
