@@ -33,6 +33,37 @@ describe "Static pages" do
         end
       end
     end
+
+    describe "should have proper micropost counts with pagination" do
+      let(:user) { FactoryGirl.create(:user) }
+      
+      describe "has one post" do
+        before do
+          FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+          sign_in user
+          visit root_path
+        end
+
+        it "one post" do
+          page.should have_content('1 micropost')
+        end
+      end
+
+      
+      
+      describe "has multiple posts" do
+        before do
+          FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+          FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+          sign_in user
+          visit root_path
+        end
+
+        it "two posts" do
+          page.should have_content('2 microposts')
+        end
+      end
+    end
   end
 
   describe "Help page" do
